@@ -1,12 +1,10 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom';
 
 class ListApi extends Component {
-  cardInfo = id => {
-    //todo
-  };
   render() {
     const { card, id } = this.props;
-    return <div onClick={this.cardInfo(id)}>{card}</div>;
+    return <Link to={`/detailCard/${id}`}>{card}</Link>;
   }
 }
 
