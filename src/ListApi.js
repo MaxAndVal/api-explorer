@@ -8,7 +8,11 @@ class ListApi extends Component {
     const cardsToMap = suggestionIsNotEmpty ? suggestion : cards;
     console.log("props :", this.props);
     return cardsToMap.map(card => (
-      <Link to={`/detailCard/${card.id}`}>{card.name}</Link>
+      <p>
+        <Link to={`/detailCard/${card.id}`} className="link">
+          {card.name}
+        </Link>
+      </p>
     ));
   }
 }

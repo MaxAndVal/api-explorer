@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import Autosuggest from "react-autosuggest";
-import ListApi from "./ListApi";
 
 class SearchBar extends Component {
   state = {

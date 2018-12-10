@@ -22,6 +22,17 @@ class Container extends Component {
             card => card.name.toLowerCase().slice(0, inputLength) === inputValue
           );
     this.setState(state => ({ suggestion: suggestion }));
+    if (suggestion.length < 100) {
+      const urlByName = `https://api.magicthegathering.io/v1/cards?name=${value}`;
+      fetch(urlByName)
+        .then(response => response.json())
+        .then(data =>
+          this.setState(() => ({
+            cards: data.cards
+          }))
+        )
+        .catch();
+    }
   };
 
   componentDidMount() {
