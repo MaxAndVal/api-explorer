@@ -32,9 +32,9 @@ class DetailCard extends Component {
     console.log("props detail : ", this.props.match.params.number);
     return (
       <React.Fragment>
-        <div>card detail {this.state.name}</div>
-        <div>card detail {this.state.text}</div>
-        <div>card detail {this.state.name}</div>
+        <div>name : {this.state.name}</div>
+        <div>detail : {this.state.text}</div>
+        <div>type : {this.state.type}</div>
       </React.Fragment>
     );
   }
