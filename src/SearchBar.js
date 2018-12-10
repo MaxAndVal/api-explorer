@@ -22,7 +22,9 @@ class SearchBar extends Component {
         );
   };
   getSuggestionValue = suggestion => suggestion.name;
-  renderSuggestion = suggestion => <ListApi card={suggestion.name} />;
+  renderSuggestion = suggestion => (
+    <ListApi card={suggestion.name} id={suggestion.id} />
+  );
   onChange = (event, { newValue }) => {
     this.setState({
       value: newValue
