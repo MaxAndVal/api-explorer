@@ -5,8 +5,11 @@ class ListApi extends Component {
     //todo
   };
   render() {
-    const { card, id } = this.props;
-    return <div onClick={this.cardInfo(id)}>{card}</div>;
+    const { cards, id, suggestion } = this.props;
+    const suggestionIsNotEmpty = suggestion.length > 0;
+    const cardsToMap = suggestionIsNotEmpty ? suggestion : cards;
+
+    return cardsToMap.map(card => <p>{card.name}</p>);
   }
 }
 
