@@ -11,25 +11,35 @@ class Container extends Component {
       suggestion: []
     };
   }
-  updateSuggestion = sugg => {
-    this.setState({ suggestion: sugg });
+  getSuggestions = value => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+    const cards = this.state.cards;
+    const suggestion =
+      inputLength === 0
+        ? []
+        : cards.filter(
+            card => card.name.toLowerCase().slice(0, inputLength) === inputValue
+          );
+    this.setState(state => ({ suggestion: suggestion }));
   };
+
   componentDidMount() {
-    const data = fetch(url)
+    fetch(url)
       .then(response => response.json())
       .then(data =>
         this.setState(() => ({
           cards: data.cards
         }))
       )
-      .catch(err => console.log("err:", err));
+      .catch();
   }
   render() {
     const { cards, suggestion } = this.state;
     return (
       <div>
-        <SearchBar cards={cards} liftSugg={this.updateSuggestion} />
-        {<ListApi cards={cards} suggestion={suggestion} />}
+        <SearchBar cards={cards} getSuggestions={this.getSuggestions} />
+        <ListApi cards={cards} suggestion={suggestion} />
       </div>
     );
   }

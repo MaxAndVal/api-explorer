@@ -3,64 +3,28 @@ import Autosuggest from "react-autosuggest";
 import ListApi from "./ListApi";
 
 class SearchBar extends Component {
-  constructor() {
-    super();
-    this.state = {
-      value: "",
-      suggestions: []
-    };
-  }
-  getSuggestions = value => {
-    const inputValue = value.trim().toLowerCase();
-    const inputLength = inputValue.length;
-    const cards = this.props.cards;
+  state = {
+    value: ""
+  };
 
-    return inputLength === 0
-      ? []
-      : cards.filter(
-          card => card.name.toLowerCase().slice(0, inputLength) === inputValue
-        );
-  };
-  getSuggestionValue = suggestion => suggestion.name;
-  renderSuggestion = suggestion => <ListApi card={suggestion.name} />;
-  onChange = (event, { newValue }) => {
-    this.setState({
-      value: newValue
-    });
-  };
-  onSuggestionsFetchRequested = ({ value }) => {
+  handleInputChange = () => {
     this.setState(
-      state => ({
-        suggestions: this.getSuggestions(value)
+      () => ({
+        value: this.search.value
       }),
-      () => this.props.liftSugg(this.state.suggestions)
-    );
-  };
-  onSuggestionsClearRequested = () => {
-    this.setState(
-      state => ({
-        suggestions: []
-      }),
-      () => this.props.liftSugg(this.state.suggestions)
+      () => this.props.getSuggestions(this.state.value)
     );
   };
 
   render() {
-    const { value, suggestions } = this.state;
-    const inputProps = {
-      placeholder: "Type a card's name",
-      value,
-      onChange: this.onChange
-    };
     return (
-      <Autosuggest
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={this.getSuggestionValue}
-        renderSuggestion={this.renderSuggestion}
-        inputProps={inputProps}
-      />
+      <form>
+        <input
+          placeholder="Search for..."
+          ref={input => (this.search = input)}
+          onChange={this.handleInputChange}
+        />
+      </form>
     );
   }
 }
