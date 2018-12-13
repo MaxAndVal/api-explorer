@@ -4,7 +4,7 @@ import ListApi from "./ListApi";
 
 class SearchBar extends Component {
   state = {
-    value: ""
+    value: "" 
   };
 
   handleInputChange = () => {
