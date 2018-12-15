@@ -12,16 +12,14 @@ class DetailCard extends Component {
 
   componentDidMount() {
     console.log(this.props);
-    const url = `https://api.magicthegathering.io/v1/cards/${
-      this.props.match.params.number
-    }`;
+    const url = `https://api.magicthegathering.io/v1/cards/${this.props.match.params.number}`;
 
     fetch(url)
       .then(response => response.json())
       .then(data =>
         this.setState(() => ({
           name: data.card.name,
-          text: ((data.card || {}).rulings[0] || {}).text,
+          text: (((data.card || {}).rulings || [])[0] || {}).text,
           type: data.card.type
         }))
       )
