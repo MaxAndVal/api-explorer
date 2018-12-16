@@ -27,14 +27,11 @@ class Container extends Component {
     this.setState(() => ({ isLoading: true }));
     const urlByName = `https://api.magicthegathering.io/v1/cards?name=${value}`;
     fetch(urlByName)
-      .then(response => (response.json(), console.log(response.json())))
-      .then(
-        data => (
-          console.log(data),
-          this.setState(() => ({
-            cards: data.cards
-          }))
-        )
+      .then(response => response.json())
+      .then(data =>
+        this.setState(() => ({
+          cards: data.cards
+        }))
       )
       .catch();
     this.setState(() => ({ isLoading: false }));
