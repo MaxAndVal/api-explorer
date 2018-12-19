@@ -7,7 +7,17 @@ import styled from "styled-components";
 
 const Grille = styled.div`
   display: grid;
-  grid-template-columns: 250px 250px 250px 250px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 15px;
+  justify-items: center;
+`;
+const SearchDiv = styled.div`
+  padding: 30px 15px;
+  background-color: #fff;
+`;
+const MainContainer = styled.div`
+  margin: 0 auto;
+  justify-items: center;
 `;
 
 const url = "https://api.magicthegathering.io/v1/cards/";
@@ -19,7 +29,7 @@ class Container extends Component {
       cards: [],
       suggestion: [],
       isLoading: true,
-      gridSize: 100,
+      gridSize: 16,
       page: 1
     };
   }
@@ -70,13 +80,15 @@ class Container extends Component {
     const { cards, suggestion, gridSize } = this.state;
     const loading = cards.length === 0 && suggestion.length === 0;
     return (
-      <div>
-        <SearchBar cards={cards} getSuggestions={this.getSuggestions} />
+      <MainContainer>
+        <SearchDiv>
+          <SearchBar cards={cards} getSuggestions={this.getSuggestions} />
+        </SearchDiv>
         {loading ? (
           <ClipLoader
             className="override"
             sizeUnit={"px"}
-            size={150}
+            size={50}
             color={"#123abc"}
             loading={true}
           />
@@ -86,7 +98,7 @@ class Container extends Component {
           </Grille>
         )}
         <button onClick={this.increaseSize}>See More</button>
-      </div>
+      </MainContainer>
     );
   }
 }
