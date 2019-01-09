@@ -20,8 +20,6 @@ const MainContainer = styled.div`
   justify-items: center;
 `;
 
-const url = "https://api.magicthegathering.io/v1/cards/";
-
 class Container extends Component {
   constructor() {
     super();
@@ -30,61 +28,89 @@ class Container extends Component {
       suggestion: [],
       isLoading: true,
       gridSize: 16,
-      page: 1
+      page: 1,
+      selectedType: "",
+      types: [],
+      subtypes: [],
+      selectedSubtype: []
     };
   }
-  getSuggestions = value => {
-    this.setState(() => ({ isLoading: true }));
-    const urlByName = `https://api.magicthegathering.io/v1/cards?name=${value}`;
-    fetch(urlByName)
+  selectAType = value => {
+    this.setState({ isLoading: true, selectedType: value }, () => {
+      this.fetchTheApi();
+    });
+  };
+
+  selectASubtype = value => {
+    this.setState({ isLoading: true, selectedSubtype: value }, () => {
+      this.fetchTheApi();
+    });
+  };
+
+  fetchTheApi = concat => {
+    const type = this.state.selectedType;
+    const subtype = this.state.selectedSubtype;
+    const name = this.state.suggestion;
+    const page = this.state.page;
+    const url = `https://api.magicthegathering.io/v1/cards?name=${name}&type=${type}&page=${page}&subtype=${subtype}`;
+    fetch(url)
       .then(response => response.json())
       .then(data =>
-        this.setState(() => ({
-          cards: data.cards
-        }))
+        concat
+          ? this.setState(state => ({
+              cards: state.cards.concat(data.cards)
+            }))
+          : this.setState(() => ({
+              cards: data.cards
+            }))
       )
       .catch();
     this.setState(() => ({ isLoading: false }));
   };
 
+  getSuggestions = value => {
+    this.setState({ isLoading: true, suggestion: value }, () => {
+      this.fetchTheApi();
+    });
+  };
+
   increaseSize = () => {
-    let page;
     this.setState(state => ({ gridSize: state.gridSize + 16 }));
     if (this.state.gridSize > this.state.cards.length) {
-      this.setState(state => ({ page: state.page + 1 }));
-      page = this.state.page;
-      const urlByPage = `https://api.magicthegathering.io/v1/cards?page=${page}`;
-      fetch(urlByPage)
-        .then(response => response.json())
-        .then(data =>
-          this.setState(state => ({
-            cards: state.cards.concat(data.cards)
-          }))
-        )
-        .catch();
+      this.setState(state => ({ page: state.page + 1 }), () => this.fetchTheApi(true));
     }
   };
 
   componentDidMount() {
-    fetch(url)
+    this.fetchTheApi();
+    const urlType = "https://api.magicthegathering.io/v1/types";
+    fetch(urlType)
       .then(response => response.json())
-      .then(data =>
-        this.setState(() => ({
-          cards: data.cards,
-          isLoading: false
-        }))
-      )
-      .catch();
+      .then(data => {
+        this.setState(() => ({ types: data.types }));
+      });
+    const urlSubTypes = "https://api.magicthegathering.io/v1/subtypes";
+    fetch(urlSubTypes)
+      .then(response => response.json())
+      .then(data => {
+        this.setState(() => ({ subtypes: data.subtypes }));
+      });
   }
   render() {
-    const { cards, suggestion, gridSize } = this.state;
-    const loading = cards.length === 0 && suggestion.length === 0;
+    const { cards, suggestion, gridSize, types, isLoading, subtypes } = this.state;
     return (
       <MainContainer>
         <SearchDiv>
-          <SearchBar cards={cards} getSuggestions={this.getSuggestions} />
+          <SearchBar
+            cards={cards}
+            getSuggestions={this.getSuggestions}
+            types={types}
+            selectAType={this.selectAType}
+            selectASubtype={this.selectASubtype}
+            subtypes={subtypes}
+          />
         </SearchDiv>
-        {loading ? (
+        {isLoading ? (
           <ClipLoader
             className="override"
             sizeUnit={"px"}

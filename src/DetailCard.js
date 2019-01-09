@@ -6,12 +6,12 @@ class DetailCard extends Component {
     this.state = {
       name: "",
       text: "",
-      type: ""
+      type: "",
+      types: []
     };
   }
 
   componentDidMount() {
-    console.log(this.props);
     const url = `https://api.magicthegathering.io/v1/cards/${this.props.match.params.number}`;
 
     fetch(url)
@@ -27,7 +27,6 @@ class DetailCard extends Component {
   }
 
   render() {
-    console.log("props detail : ", this.props.match.params.number);
     return (
       <React.Fragment>
         <div>card detail {this.state.name}</div>

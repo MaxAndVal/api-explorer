@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
 import Main from "./Main";
-import Header from "./Header";
 import styled from "styled-components";
 
 const Container = styled.div`
