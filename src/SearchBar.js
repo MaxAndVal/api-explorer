@@ -1,4 +1,10 @@
 import React from "react";
+import ReactDOM from "react-dom";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import Input from "@material-ui/core/Input";
 
 const SearchBar = props => {
   const listTypes = props.types || [];
@@ -7,22 +13,25 @@ const SearchBar = props => {
   return (
     <form>
       <input placeholder="Search for..." onChange={e => props.getSuggestions(e.target.value)} />
-      <select onChange={e => props.selectAType(e.target.value)}>
-        <option value="">tous</option>
+      <Select onChange={e => props.selectAType(e.target.value)} name="type">
+        <MenuItem value="">tous</MenuItem>
         {listTypes.map((type, key) => (
-          <option value={type} key={key}>
+          <MenuItem value={type} key={key}>
             {type}
-          </option>
+          </MenuItem>
         ))}
-      </select>
-      <select onChange={e => props.selectASubtype(e.target.value)}>
-        <option value="">tous</option>
+      </Select>
+      <Select
+        onChange={e => props.selectASubtype(e.target.value)}
+        input={<Input name="age" id="age-helper" />}
+      >
+        <MenuItem value="">tous</MenuItem>
         {listSubTypes.map((subtype, key) => (
-          <option value={subtype} key={key}>
+          <MenuItem value={subtype} key={key}>
             {subtype}
-          </option>
+          </MenuItem>
         ))}
-      </select>
+      </Select>
     </form>
   );
 };
