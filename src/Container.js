@@ -20,7 +20,7 @@ const MainContainer = styled.div`
   justify-items: center;
 `;
 
-const colortypesArray = ["White", "Red", "Green", "Blue", "Black", "Incolor", "NoColor"];
+const colortypesArray = ["White", "Red", "Green", "Blue", "Black"];
 
 class Container extends Component {
   constructor() {
@@ -38,7 +38,7 @@ class Container extends Component {
       supertypes: [],
       selectedSupertype: [],
       colortypes: [],
-      selectedColor: []
+      selectedColor: ""
     };
   }
   selectAType = value => {
@@ -57,8 +57,17 @@ class Container extends Component {
       this.fetchTheApi();
     });
   };
-  selectAColor = value => {
-    this.setState({ isLoading: true, selectedColor: value }, () => {
+  selectAColor = (value, checked) => {
+    var newColors = "";
+    if (value === "tous") {
+      newColors = "";
+    } else if (checked) {
+      newColors = this.state.selectedColor + value + ",";
+    } else if (!checked) {
+      const valueToRemove = value + ",";
+      newColors = this.state.selectedColor.replace(valueToRemove, "");
+    }
+    this.setState({ isLoading: true, selectedColor: newColors }, () => {
       this.fetchTheApi();
     });
   };
@@ -137,6 +146,7 @@ class Container extends Component {
       selectedColor,
       colortypes
     } = this.state;
+    console.log("state : ", selectedColor);
     return (
       <MainContainer>
         <SearchDiv>
