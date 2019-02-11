@@ -18,6 +18,11 @@ const SearchDiv = styled.div`
 const MainContainer = styled.div`
   margin: 0 auto;
   justify-items: center;
+  .overide {
+    text-align: center;
+    width: 100%;
+    margin: auto;
+  }
 `;
 
 const colortypesArray = ["White", "Red", "Green", "Blue", "Black"];
@@ -41,6 +46,10 @@ class Container extends Component {
       selectedColor: ""
     };
   }
+  isBottom(el) {
+    return el.getBoundingClientRect().bottom - 1000 <= window.innerHeight;
+  }
+
   selectAType = value => {
     this.setState({ isLoading: true, selectedType: value }, () => {
       this.fetchTheApi();
@@ -129,7 +138,19 @@ class Container extends Component {
       .then(data => {
         this.setState({ supertypes: data.supertypes });
       });
+
+    document.addEventListener("scroll", this.trackScrolling);
   }
+  componentWillUnmount() {
+    document.removeEventListener("scroll", this.trackScrolling);
+  }
+
+  trackScrolling = () => {
+    const wrappedElement = document.getElementById("Grille");
+    if (this.isBottom(wrappedElement)) {
+      this.increaseSize();
+    }
+  };
   render() {
     const {
       cards,
@@ -145,7 +166,6 @@ class Container extends Component {
       selectedColor,
       colortypes
     } = this.state;
-    console.log("isLoading : ", isLoading);
     return (
       <MainContainer>
         <SearchDiv>
@@ -166,17 +186,13 @@ class Container extends Component {
             selectedColor={selectedColor}
           />
         </SearchDiv>
-        {isLoading ? (
-          <ClipLoader
-            className="override"
-            sizeUnit={"px"}
-            size={50}
-            color={"#123abc"}
-            loading={true}
-          />
-        ) : cards.length > 0 ? (
-          <Grille>
-            <ListApi cards={cards} gridSize={gridSize} suggestion={suggestion} />
+
+        <div style={{ textAlign: "center" }}>
+          <ClipLoader sizeUnit={"px"} size={150} color={"#123abc"} loading={isLoading} />
+        </div>
+        {cards.length > 0 || isLoading ? (
+          <Grille id="Grille">
+            <ListApi cards={isLoading ? [] : cards} gridSize={gridSize} suggestion={suggestion} />
           </Grille>
         ) : (
           <div style={{ textAlign: "center" }}>
@@ -187,7 +203,6 @@ class Container extends Component {
             <h2>This is not the card you are looking for</h2>
           </div>
         )}
-        {isLoading || <button onClick={this.increaseSize}>See More</button>}
       </MainContainer>
     );
   }

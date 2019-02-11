@@ -14,7 +14,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Container>
+        <Container id="MainContainer">
           <Main className="App-body" />
         </Container>
       </div>
