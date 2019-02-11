@@ -1,7 +1,8 @@
-import React from 'react'
-import { Switch, Route } from 'react-router-dom'
-import Container from './Container'
-import DetailCard from './DetailCard'
+import React from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
+import Container from "./Container";
+import DetailCard from "./DetailCard";
+import Error404 from "./404";
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). Both the /roster
@@ -11,10 +12,12 @@ import DetailCard from './DetailCard'
 const Main = () => (
   <main>
     <Switch>
-      <Route exact path='/' component={Container}/>
-      <Route path='/DetailCard/:number' component={DetailCard}/>
+      <Route exact path="/" component={Container} />
+      <Route path="/DetailCard/:number" component={DetailCard} />
+      <Route path="/404" component={Error404} />
+      <Redirect from="/*" to="/404" />
     </Switch>
   </main>
-)
+);
 
-export default Main
+export default Main;
