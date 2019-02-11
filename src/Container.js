@@ -20,6 +20,8 @@ const MainContainer = styled.div`
   justify-items: center;
 `;
 
+const colortypesArray = ["White", "Red", "Green", "Blue", "Black"];
+
 class Container extends Component {
   constructor() {
     super();
@@ -34,7 +36,9 @@ class Container extends Component {
       subtypes: [],
       selectedSubtype: [],
       supertypes: [],
-      selectedSupertype: []
+      selectedSupertype: [],
+      colortypes: [],
+      selectedColor: ""
     };
   }
   selectAType = value => {
@@ -53,6 +57,20 @@ class Container extends Component {
       this.fetchTheApi();
     });
   };
+  selectAColor = (value, checked) => {
+    var newColors = "";
+    if (value === "tous") {
+      newColors = "";
+    } else if (checked) {
+      newColors = this.state.selectedColor + value + ",";
+    } else if (!checked) {
+      const valueToRemove = value + ",";
+      newColors = this.state.selectedColor.replace(valueToRemove, "");
+    }
+    this.setState({ isLoading: true, selectedColor: newColors }, () => {
+      this.fetchTheApi();
+    });
+  };
 
   fetchTheApi = concat => {
     const type = this.state.selectedType;
@@ -60,7 +78,8 @@ class Container extends Component {
     const name = this.state.suggestion;
     const page = this.state.page;
     const supertype = this.state.selectedSupertype;
-    const url = `https://api.magicthegathering.io/v1/cards?name=${name}&type=${type}&page=${page}&subtypes=${subtype}&supertypes=${supertype}`;
+    const color = this.state.selectedColor;
+    const url = `https://api.magicthegathering.io/v1/cards?name=${name}&type=${type}&page=${page}&subtypes=${subtype}&supertypes=${supertype}&colors=${color}`;
     fetch(url)
       .then(response => response.json())
       .then(data =>
@@ -85,10 +104,7 @@ class Container extends Component {
   increaseSize = () => {
     this.setState(state => ({ gridSize: state.gridSize + 16 }));
     if (this.state.gridSize > this.state.cards.length) {
-      this.setState(
-        state => ({ page: state.page + 1 }),
-        () => this.fetchTheApi(true)
-      );
+      this.setState(state => ({ page: state.page + 1 }), () => this.fetchTheApi(true));
     }
   };
 
@@ -112,6 +128,8 @@ class Container extends Component {
       .then(data => {
         this.setState({ supertypes: data.supertypes });
       });
+
+    this.setState({ colortypes: colortypesArray });
   }
   render() {
     const {
@@ -124,8 +142,11 @@ class Container extends Component {
       supertypes,
       subtypes,
       selectedSubtype,
-      selectedType
+      selectedType,
+      selectedColor,
+      colortypes
     } = this.state;
+    console.log("state : ", selectedColor);
     return (
       <MainContainer>
         <SearchDiv>
@@ -133,14 +154,17 @@ class Container extends Component {
             cards={cards}
             getSuggestions={this.getSuggestions}
             types={types}
-            selectAType={this.selectAType}
-            selectASubtype={this.selectASubtype}
             subtypes={subtypes}
             supertypes={supertypes}
-            selectedSubtype={selectedSubtype}
-            selectedType={selectedType}
-            selectedSupertype={selectedSupertype}
+            colortypes={colortypes}
+            selectAType={this.selectAType}
+            selectASubtype={this.selectASubtype}
             selectASupertype={this.selectASupertype}
+            selectAColor={this.selectAColor}
+            selectedType={selectedType}
+            selectedSubtype={selectedSubtype}
+            selectedSupertype={selectedSupertype}
+            selectedColor={selectedColor}
           />
         </SearchDiv>
         {isLoading ? (
@@ -153,11 +177,7 @@ class Container extends Component {
           />
         ) : cards.length > 0 ? (
           <Grille>
-            <ListApi
-              cards={cards}
-              gridSize={gridSize}
-              suggestion={suggestion}
-            />
+            <ListApi cards={cards} gridSize={gridSize} suggestion={suggestion} />
           </Grille>
         ) : (
           <div style={{ textAlign: "center" }}>
@@ -168,9 +188,7 @@ class Container extends Component {
             <h2>This is not the card you are looking for</h2>
           </div>
         )}
-        {isLoading && cards.length > 0 && (
-          <button onClick={this.increaseSize}>See More</button>
-        )}
+        {isLoading && cards.length > 0 && <button onClick={this.increaseSize}>See More</button>}
       </MainContainer>
     );
   }
