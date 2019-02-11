@@ -1,14 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import Main from "./Main";
-import styled from "styled-components";
-
-const Container = styled.div`
-  height: 100%;
-  width: 80%;
-  background-color: #fff;
-  margin: 0 auto;
-`;
+import { Container } from "./Styles";
 
 class App extends Component {
   render() {

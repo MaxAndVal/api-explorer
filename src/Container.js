@@ -1,29 +1,12 @@
 import React, { Component } from "react";
-import SearchBar from "./SearchBar";
+
 import ListApi from "./ListApi";
-import { ClipLoader } from "react-spinners";
+import SearchBar from "./SearchBar";
 
-import styled from "styled-components";
+import Loader from "./Components/Loader";
+import NoCards from "./Components/NoCards";
 
-const Grille = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  padding: 15px;
-  justify-items: center;
-`;
-const SearchDiv = styled.div`
-  padding: 30px 15px;
-  background-color: #fff;
-`;
-const MainContainer = styled.div`
-  margin: 0 auto;
-  justify-items: center;
-  .overide {
-    text-align: center;
-    width: 100%;
-    margin: auto;
-  }
-`;
+import { MainContainer, SearchDiv, Grille } from "./Styles";
 
 const colortypesArray = ["White", "Red", "Green", "Blue", "Black"];
 
@@ -37,12 +20,12 @@ class Container extends Component {
       gridSize: 16,
       page: 1,
       selectedType: "",
-      types: [],
-      subtypes: [],
+      listTypes: [],
+      listSubTypes: [],
       selectedSubtype: [],
-      supertypes: [],
+      listSupertypes: [],
       selectedSupertype: [],
-      colortypes: [],
+      listColorTypes: [],
       selectedColor: ""
     };
   }
@@ -82,13 +65,15 @@ class Container extends Component {
   };
 
   fetchTheApi = concat => {
-    const type = this.state.selectedType;
-    const subtype = this.state.selectedSubtype;
-    const name = this.state.suggestion;
-    const page = this.state.page;
-    const supertype = this.state.selectedSupertype;
-    const color = this.state.selectedColor;
-    const url = `https://api.magicthegathering.io/v1/cards?name=${name}&type=${type}&page=${page}&subtypes=${subtype}&supertypes=${supertype}&colors=${color}`;
+    const {
+      selectedType,
+      selectedSubtype,
+      suggestion,
+      page,
+      selectedSupertype,
+      selectedColor
+    } = this.state;
+    const url = `https://api.magicthegathering.io/v1/cards?name=${suggestion}&type=${selectedType}&page=${page}&subtypes=${selectedSubtype}&supertypes=${selectedSupertype}&colors=${selectedColor}`;
     fetch(url)
       .then(response => response.json())
       .then(data =>
@@ -118,25 +103,25 @@ class Container extends Component {
   };
 
   componentDidMount() {
-    this.setState(() => ({ colortypes: colortypesArray }));
+    this.setState(() => ({ listColorTypes: colortypesArray }));
     this.fetchTheApi();
     const urlTypes = "https://api.magicthegathering.io/v1/types";
     fetch(urlTypes)
       .then(response => response.json())
       .then(data => {
-        this.setState({ types: data.types });
+        this.setState({ listTypes: data.types });
       });
     const urlSubTypes = "https://api.magicthegathering.io/v1/subtypes";
     fetch(urlSubTypes)
       .then(response => response.json())
       .then(data => {
-        this.setState({ subtypes: data.subtypes });
+        this.setState({ listSubTypes: data.subtypes });
       });
     const urlSuperTypes = "https://api.magicthegathering.io/v1/supertypes";
     fetch(urlSuperTypes)
       .then(response => response.json())
       .then(data => {
-        this.setState({ supertypes: data.supertypes });
+        this.setState({ listSupertypes: data.supertypes });
       });
 
     document.addEventListener("scroll", this.trackScrolling);
@@ -152,56 +137,27 @@ class Container extends Component {
     }
   };
   render() {
-    const {
-      cards,
-      selectedSupertype,
-      suggestion,
-      gridSize,
-      types,
-      isLoading,
-      supertypes,
-      subtypes,
-      selectedSubtype,
-      selectedType,
-      selectedColor,
-      colortypes
-    } = this.state;
+    const state = this.state;
+    const { cards, suggestion, gridSize, isLoading } = this.state;
     return (
       <MainContainer>
         <SearchDiv>
           <SearchBar
-            cards={cards}
             getSuggestions={this.getSuggestions}
-            types={types}
-            subtypes={subtypes}
-            supertypes={supertypes}
-            colortypes={colortypes}
             selectAType={this.selectAType}
             selectASubtype={this.selectASubtype}
             selectASupertype={this.selectASupertype}
             selectAColor={this.selectAColor}
-            selectedType={selectedType}
-            selectedSubtype={selectedSubtype}
-            selectedSupertype={selectedSupertype}
-            selectedColor={selectedColor}
+            containerState={state}
           />
         </SearchDiv>
-
-        <div style={{ textAlign: "center" }}>
-          <ClipLoader sizeUnit={"px"} size={150} color={"#123abc"} loading={isLoading} />
-        </div>
+        <Loader isLoading={isLoading} />
         {cards.length > 0 || isLoading ? (
           <Grille id="Grille">
             <ListApi cards={isLoading ? [] : cards} gridSize={gridSize} suggestion={suggestion} />
           </Grille>
         ) : (
-          <div style={{ textAlign: "center" }}>
-            <img
-              src={require("./images/sw-droid.jpg")}
-              alt="This is not the card you are looking for"
-            />
-            <h2>This is not the card you are looking for</h2>
-          </div>
+          <NoCards />
         )}
       </MainContainer>
     );
