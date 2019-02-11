@@ -10,7 +10,6 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-
 class App extends Component {
   render() {
     return (

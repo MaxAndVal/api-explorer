@@ -91,8 +91,8 @@ class Container extends Component {
               cards: data.cards
             }))
       )
+      .then(() => this.setState({ isLoading: false }))
       .catch();
-    this.setState(() => ({ isLoading: false }));
   };
 
   getSuggestions = value => {
@@ -109,6 +109,7 @@ class Container extends Component {
   };
 
   componentDidMount() {
+    this.setState(() => ({ colortypes: colortypesArray }));
     this.fetchTheApi();
     const urlTypes = "https://api.magicthegathering.io/v1/types";
     fetch(urlTypes)
@@ -128,8 +129,6 @@ class Container extends Component {
       .then(data => {
         this.setState({ supertypes: data.supertypes });
       });
-
-    this.setState({ colortypes: colortypesArray });
   }
   render() {
     const {
@@ -146,7 +145,7 @@ class Container extends Component {
       selectedColor,
       colortypes
     } = this.state;
-    console.log("state : ", selectedColor);
+    console.log("isLoading : ", isLoading);
     return (
       <MainContainer>
         <SearchDiv>
@@ -188,7 +187,7 @@ class Container extends Component {
             <h2>This is not the card you are looking for</h2>
           </div>
         )}
-        {isLoading && cards.length > 0 && <button onClick={this.increaseSize}>See More</button>}
+        {isLoading || <button onClick={this.increaseSize}>See More</button>}
       </MainContainer>
     );
   }
