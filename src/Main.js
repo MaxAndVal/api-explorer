@@ -10,7 +10,7 @@ import Error404 from "./404";
 // with /roster or /schedule. The / route will only match
 // when the pathname is exactly the string "/"
 const Main = () => (
-  <main>
+  <main style={{height:"100%"}}>
     <Switch>
       <Route exact path="/" component={Container} />
       <Route path="/DetailCard/:number" component={DetailCard} />

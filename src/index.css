@@ -19,3 +19,6 @@ html {
 #root {
   height: 100%;
 }
+.App-body {
+  height: 100%;
+}
