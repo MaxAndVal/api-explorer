@@ -10,6 +10,7 @@ const SearchBar = props => {
   const listTypes = props.types || [];
   const listSubTypes = props.subtypes || [];
   const listSupertype = props.supertypes || [];
+  const listColorType = props.colortypes || [];
   return (
     <form
       style={{
@@ -20,10 +21,7 @@ const SearchBar = props => {
         borderBottom: "1px solid black"
       }}
     >
-      <Input
-        placeholder="Search for..."
-        onChange={e => props.getSuggestions(e.target.value)}
-      />
+      <Input placeholder="Search for..." onChange={e => props.getSuggestions(e.target.value)} />
       <InputLabel>Type</InputLabel>
       <Select
         onChange={e => props.selectAType(e.target.value)}
@@ -60,6 +58,19 @@ const SearchBar = props => {
         {listSupertype.map((supertype, key) => (
           <MenuItem value={supertype} key={key}>
             {supertype}
+          </MenuItem>
+        ))}
+      </Select>
+      <InputLabel>Color</InputLabel>
+      <Select
+        onChange={e => props.selectAColor(e.target.value)}
+        name="Color"
+        value={props.selectedColor}
+      >
+        <MenuItem value="">tous</MenuItem>
+        {listColorType.map((color, key) => (
+          <MenuItem value={color} key={key}>
+            {color}
           </MenuItem>
         ))}
       </Select>
