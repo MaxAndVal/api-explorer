@@ -10,12 +10,11 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Container>
+        <Container id="MainContainer">
           <Main className="App-body" />
         </Container>
       </div>
