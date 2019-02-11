@@ -24,7 +24,12 @@ class ListApi extends Component {
       <Case key={key}>
         <Link to={`/detailCard/${card.id}`} className="link">
           <p>{card.name}</p>
-          <img src={card.imageUrl} alt="de la carte" width="100%" height="auto" />
+          <img
+            src={card.imageUrl}
+            alt="de la carte"
+            width="100%"
+            height="auto"
+          />
         </Link>
       </Case>
     ));
