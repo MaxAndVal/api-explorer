@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { DivResult, DivSpec, Back } from "./Styles";
+import Line from "./Components/Line";
+import FieldsBox from "./Components/FieldsBox"
+import ImageCard from "./Components/ImageCard"
 
 class DetailCard extends Component {
   constructor(props) {
@@ -11,7 +14,8 @@ class DetailCard extends Component {
       colors: [],
       text: "",
       image: "",
-      flavor: ""
+      flavor: "",
+      fieldState: {},
     };
   }
 
@@ -28,48 +32,26 @@ class DetailCard extends Component {
           types: data.card.types,
           colors: data.card.colors,
           image: data.card.imageUrl || placeHolder,
-          flavor: data.card.flavor
+          flavor: data.card.flavor,
+          fieldState: new Object({
+             name: data.card.name,
+             text: data.card.text, 
+             type: data.card.type, 
+             types: data.card.types, 
+             colors: data.card.colors,
+             citation: data.card.flavor
+            })
         }))
       )
       .catch(err => console.log("err:", err));
   }
 
   render() {
+    //console.log("fieldState: ", this.state)
     return (
       <Back>
-        <div style={{ flex: 1 }}>
-          <img src={this.state.image} />
-        </div>
-        <div
-          style={{
-            flex: 3,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-            padding: "2%"
-          }}
-        >
-          <div style={{ display: "flex" }}>
-            <DivSpec>Nom:</DivSpec>
-            <DivResult> {this.state.name}</DivResult>
-          </div>
-          <div style={{ display: "flex" }}>
-            <DivSpec>Règles: </DivSpec>
-            <DivResult>{this.state.text}</DivResult>
-          </div>
-          <div style={{ display: "flex" }}>
-            <DivSpec>Type:</DivSpec> <DivResult>{this.state.type}</DivResult>
-          </div>
-          <div style={{ display: "flex" }}>
-            <DivSpec>Types:</DivSpec> <DivResult>{this.state.types}</DivResult>
-          </div>
-          <div style={{ display: "flex" }}>
-            <DivSpec>Couleurs: </DivSpec> <DivResult>{this.state.colors}</DivResult>
-          </div>
-          <div style={{ display: "flex" }}>
-            <DivSpec>Citation: </DivSpec> <DivResult>{this.state.flavor}</DivResult>
-          </div>
-        </div>
+        <ImageCard image = {this.state.image}/>
+        <FieldsBox state = {this.state.fieldState}/>
       </Back>
     );
   }
