@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { DivResult, DivSpec, Back } from "./Styles";
 import Line from "./Components/Line";
 import FieldsBox from "./Components/FieldsBox"
+import ImageCard from "./Components/ImageCard"
 
 class DetailCard extends Component {
   constructor(props) {
@@ -39,9 +40,7 @@ class DetailCard extends Component {
   render() {
     return (
       <Back>
-        <div style={{ flex: 1 }}>
-          <img src={this.state.image} />
-        </div>
+        <ImageCard image = {this.state.image}/>
         <FieldsBox state = {this.state}>
 
         </FieldsBox>
