@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { DivResult, DivSpec, Back } from "./Styles";
+import Line from "./Components/Line";
+import FieldsBox from "./Components/FieldsBox"
 
 class DetailCard extends Component {
   constructor(props) {
@@ -40,36 +42,9 @@ class DetailCard extends Component {
         <div style={{ flex: 1 }}>
           <img src={this.state.image} />
         </div>
-        <div
-          style={{
-            flex: 3,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-            padding: "2%"
-          }}
-        >
-          <div style={{ display: "flex" }}>
-            <DivSpec>Nom:</DivSpec>
-            <DivResult> {this.state.name}</DivResult>
-          </div>
-          <div style={{ display: "flex" }}>
-            <DivSpec>Règles: </DivSpec>
-            <DivResult>{this.state.text}</DivResult>
-          </div>
-          <div style={{ display: "flex" }}>
-            <DivSpec>Type:</DivSpec> <DivResult>{this.state.type}</DivResult>
-          </div>
-          <div style={{ display: "flex" }}>
-            <DivSpec>Types:</DivSpec> <DivResult>{this.state.types}</DivResult>
-          </div>
-          <div style={{ display: "flex" }}>
-            <DivSpec>Couleurs: </DivSpec> <DivResult>{this.state.colors}</DivResult>
-          </div>
-          <div style={{ display: "flex" }}>
-            <DivSpec>Citation: </DivSpec> <DivResult>{this.state.flavor}</DivResult>
-          </div>
-        </div>
+        <FieldsBox state = {this.state}>
+
+        </FieldsBox>
       </Back>
     );
   }
