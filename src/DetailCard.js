@@ -14,7 +14,8 @@ class DetailCard extends Component {
       colors: [],
       text: "",
       image: "",
-      flavor: ""
+      flavor: "",
+      fieldState: {},
     };
   }
 
@@ -31,19 +32,26 @@ class DetailCard extends Component {
           types: data.card.types,
           colors: data.card.colors,
           image: data.card.imageUrl || placeHolder,
-          flavor: data.card.flavor
+          flavor: data.card.flavor,
+          fieldState: new Object({
+             name: data.card.name,
+             text: data.card.text, 
+             type: data.card.type, 
+             types: data.card.types, 
+             colors: data.card.colors,
+             citation: data.card.flavor
+            })
         }))
       )
       .catch(err => console.log("err:", err));
   }
 
   render() {
+    //console.log("fieldState: ", this.state)
     return (
       <Back>
         <ImageCard image = {this.state.image}/>
-        <FieldsBox state = {this.state}>
-
-        </FieldsBox>
+        <FieldsBox state = {this.state.fieldState}/>
       </Back>
     );
   }
