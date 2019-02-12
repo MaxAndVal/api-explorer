@@ -9,8 +9,7 @@ class DetailCard extends Component {
     super(props);
     this.state = {
       name: "",
-      type: "",
-      types: [],
+      types: "",
       colors: [],
       text: "",
       image: "",
@@ -28,18 +27,16 @@ class DetailCard extends Component {
         this.setState(() => ({
           name: data.card.name,
           text: data.card.text,
-          type: data.card.type,
-          types: data.card.types,
+          types: data.card.type,
           colors: data.card.colors,
           image: data.card.imageUrl || placeHolder,
           flavor: data.card.flavor,
           fieldState: new Object({
              name: data.card.name,
              text: data.card.text, 
-             type: data.card.type, 
-             types: data.card.types, 
+             types: data.card.type, 
              colors: data.card.colors,
-             citation: data.card.flavor
+             quote: data.card.flavor
             })
         }))
       )
