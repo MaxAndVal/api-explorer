@@ -1,5 +1,5 @@
 import React from "react";
-import DivHead from "./Styles";
+import DivHead from "../Styles";
 
 const header = () => {
   return (

@@ -3,10 +3,10 @@ import React, { Component } from "react";
 import ListApi from "./ListApi";
 import SearchBar from "./SearchBar";
 
-import Loader from "./Components/Loader";
-import NoCards from "./Components/NoCards";
+import Loader from "../Components/Loader";
+import NoCards from "../Components/NoCards";
 
-import { MainContainer, SearchDiv, Grille } from "./Styles";
+import { MainContainer, SearchDiv, Grille } from "../Styles";
 
 const colortypesArray = ["White", "Red", "Green", "Blue", "Black"];
 

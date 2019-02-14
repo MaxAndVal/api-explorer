@@ -9,7 +9,8 @@ const FieldsBox = props => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-evenly",
-        padding: "2%"
+        padding: "2%",
+        alignSelf: "center"
       }}
     >
       {Object.keys(props.state).map((e, key) => (

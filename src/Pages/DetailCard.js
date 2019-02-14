@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Back } from "./Styles";
-import FieldsBox from "./Components/FieldsBox";
-import ImageCard from "./Components/ImageCard";
+import { Back } from "../Styles";
+import FieldsBox from "../Components/FieldsBox";
+import ImageCard from "../Components/ImageCard";
+import ButtonBack from "../Components/CustomButton";
 
 class DetailCard extends Component {
   constructor(props) {
@@ -13,13 +14,14 @@ class DetailCard extends Component {
       text: "",
       image: "",
       flavor: "",
-      fieldState: {}
+      fieldState: {},
+      returnHover: false
     };
   }
 
   componentDidMount() {
     const url = `https://api.magicthegathering.io/v1/cards/${this.props.match.params.number}`;
-    const placeHolder = require("./images/placeHolder.jpeg");
+    const placeHolder = require("../images/placeHolder.jpeg");
     fetch(url)
       .then(response => response.json())
       .then(data =>
@@ -41,13 +43,19 @@ class DetailCard extends Component {
       )
       .catch(err => console.log("err:", err));
   }
+  mouseOver = hover => {
+    this.setState({ returnHover: hover });
+  };
 
   render() {
     return (
-      <Back>
-        <ImageCard image={this.state.image} />
-        <FieldsBox state={this.state.fieldState} />
-      </Back>
+      <div>
+        <ButtonBack text="retour" mouseOver={this.mouseOver} isHover={this.state.returnHover} />
+        <Back>
+          <ImageCard image={this.state.image} />
+          <FieldsBox state={this.state.fieldState} />
+        </Back>
+      </div>
     );
   }
 }
