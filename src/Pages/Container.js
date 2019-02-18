@@ -26,7 +26,8 @@ class Container extends Component {
       listSupertypes: [],
       selectedSupertype: [],
       listColorTypes: [],
-      selectedColor: ""
+      selectedColor: "",
+      isMobile: false
     };
   }
   isBottom(el) {
@@ -101,8 +102,17 @@ class Container extends Component {
       this.setState(state => ({ page: state.page + 1 }), () => this.fetchTheApi(true));
     }
   };
+  updateDimensions = () => {
+    if (window.innerWidth < 610 && !this.state.isMobile) {
+      this.setState({ isMobile: true });
+    }
+    if (window.innerWidth > 610 && this.state.isMobile) {
+      this.setState({ isMobile: false });
+    }
+  };
 
   componentDidMount() {
+    window.addEventListener("resize", this.updateDimensions);
     this.setState(() => ({ listColorTypes: colortypesArray }));
     this.fetchTheApi();
     const urlTypes = "https://api.magicthegathering.io/v1/types";
@@ -139,6 +149,7 @@ class Container extends Component {
   render() {
     const state = this.state;
     const { cards, suggestion, gridSize, isLoading } = this.state;
+    const matches = this.state.isMobile;
     return (
       <MainContainer>
         <SearchDiv>
@@ -149,11 +160,12 @@ class Container extends Component {
             selectASupertype={this.selectASupertype}
             selectAColor={this.selectAColor}
             containerState={state}
+            isMobile={matches}
           />
         </SearchDiv>
         <Loader isLoading={isLoading} />
         {cards.length > 0 || isLoading ? (
-          <Grille id="Grille">
+          <Grille id="Grille" isMobile={matches}>
             <ListApi cards={isLoading ? [] : cards} gridSize={gridSize} suggestion={suggestion} />
           </Grille>
         ) : (
