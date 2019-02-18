@@ -8,7 +8,6 @@ const FieldsBox = props => {
         flex: 3,
         display: "flex",
         flexDirection: "column",
-        flexWrap: "wrap",
         justifyContent: "space-evenly",
         padding: "2%",
         alignSelf: "center"

@@ -25,6 +25,8 @@ export const MainContainer = styled.div`
 export const Back = styled.div`
   display: flex;
   padding: 50px;
+  max-width: 610px;
+  flex-wrap: wrap;
 `;
 
 export const DivSpec = styled.div`
