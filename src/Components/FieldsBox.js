@@ -14,7 +14,7 @@ const FieldsBox = props => {
       }}
     >
       {Object.keys(props.state).map((e, key) => (
-        <Line type={e} value={props.state[e]} key={key} />
+        <Line type={e} value={props.state[e]} key={key} isMobile={props.isMobile} />
       ))}
     </div>
   );

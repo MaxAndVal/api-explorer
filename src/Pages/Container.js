@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 import ListApi from "./ListApi";
 import SearchBar from "./SearchBar";
@@ -11,8 +12,8 @@ import { MainContainer, SearchDiv, Grille } from "../Styles";
 const colortypesArray = ["White", "Red", "Green", "Blue", "Black"];
 
 class Container extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       cards: [],
       suggestion: [],
@@ -26,8 +27,7 @@ class Container extends Component {
       listSupertypes: [],
       selectedSupertype: [],
       listColorTypes: [],
-      selectedColor: "",
-      isMobile: false
+      selectedColor: ""
     };
   }
   isBottom(el) {
@@ -102,17 +102,8 @@ class Container extends Component {
       this.setState(state => ({ page: state.page + 1 }), () => this.fetchTheApi(true));
     }
   };
-  updateDimensions = () => {
-    if (window.innerWidth < 610 && !this.state.isMobile) {
-      this.setState({ isMobile: true });
-    }
-    if (window.innerWidth > 610 && this.state.isMobile) {
-      this.setState({ isMobile: false });
-    }
-  };
 
   componentDidMount() {
-    window.addEventListener("resize", this.updateDimensions);
     this.setState(() => ({ listColorTypes: colortypesArray }));
     this.fetchTheApi();
     const urlTypes = "https://api.magicthegathering.io/v1/types";
@@ -147,9 +138,9 @@ class Container extends Component {
     }
   };
   render() {
+    console.log("conainter", this.props);
     const state = this.state;
     const { cards, suggestion, gridSize, isLoading } = this.state;
-    const matches = this.state.isMobile;
     return (
       <MainContainer>
         <SearchDiv>
@@ -160,12 +151,12 @@ class Container extends Component {
             selectASupertype={this.selectASupertype}
             selectAColor={this.selectAColor}
             containerState={state}
-            isMobile={matches}
+            isMobile={this.props.isMobile}
           />
         </SearchDiv>
         <Loader isLoading={isLoading} />
         {cards.length > 0 || isLoading ? (
-          <Grille id="Grille" isMobile={matches}>
+          <Grille id="Grille" isMobile={this.props.isMobile}>
             <ListApi cards={isLoading ? [] : cards} gridSize={gridSize} suggestion={suggestion} />
           </Grille>
         ) : (
@@ -176,4 +167,4 @@ class Container extends Component {
   }
 }
 
-export default Container;
+export default withRouter(Container);

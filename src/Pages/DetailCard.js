@@ -48,12 +48,13 @@ class DetailCard extends Component {
   };
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <ButtonBack text="retour" mouseOver={this.mouseOver} isHover={this.state.returnHover} />
         <Back>
           <ImageCard image={this.state.image} />
-          <FieldsBox state={this.state.fieldState} />
+          <FieldsBox state={this.state.fieldState} isMobile={this.props.isMobile} />
         </Back>
       </div>
     );
