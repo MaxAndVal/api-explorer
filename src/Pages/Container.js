@@ -27,7 +27,7 @@ class Container extends Component {
       selectedSupertype: [],
       listColorTypes: [],
       selectedColor: "",
-      isMobile: false
+      isMobile: window.innerWidth < 610
     };
   }
   isBottom(el) {
@@ -99,7 +99,10 @@ class Container extends Component {
   increaseSize = () => {
     this.setState(state => ({ gridSize: state.gridSize + 16 }));
     if (this.state.gridSize > this.state.cards.length) {
-      this.setState(state => ({ page: state.page + 1 }), () => this.fetchTheApi(true));
+      this.setState(
+        state => ({ page: state.page + 1 }),
+        () => this.fetchTheApi(true)
+      );
     }
   };
   updateDimensions = () => {
@@ -166,7 +169,11 @@ class Container extends Component {
         <Loader isLoading={isLoading} />
         {cards.length > 0 || isLoading ? (
           <Grille id="Grille" isMobile={matches}>
-            <ListApi cards={isLoading ? [] : cards} gridSize={gridSize} suggestion={suggestion} />
+            <ListApi
+              cards={isLoading ? [] : cards}
+              gridSize={gridSize}
+              suggestion={suggestion}
+            />
           </Grille>
         ) : (
           <NoCards />
