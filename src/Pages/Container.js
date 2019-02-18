@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
 
 import ListApi from "./ListApi";
 import SearchBar from "./SearchBar";
@@ -167,4 +166,4 @@ class Container extends Component {
   }
 }
 
-export default withRouter(Container);
+export default Container;
