@@ -8,6 +8,7 @@ const SearchBar = props => {
       <div
         style={{
           display: "flex",
+          flexDirection: window.innerWidth < 610 ? "column" : "row",
           justifyContent: "space-around",
           paddingBottom: "25px",
           marginTop: "25px",

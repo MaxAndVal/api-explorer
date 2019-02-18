@@ -2,7 +2,10 @@ import styled from "styled-components";
 
 export const Grille = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  ${props =>
+    props.isMobile
+      ? "grid-template-columns:1fr 1fr;"
+      : "grid-template-columns: 1fr 1fr 1fr 1fr;"}
   padding: 15px;
   justify-items: center;
 `;
@@ -22,6 +25,8 @@ export const MainContainer = styled.div`
 export const Back = styled.div`
   display: flex;
   padding: 50px;
+  max-width: 610px;
+  flex-wrap: wrap;
 `;
 
 export const DivSpec = styled.div`
