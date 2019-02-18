@@ -98,7 +98,10 @@ class Container extends Component {
   increaseSize = () => {
     this.setState(state => ({ gridSize: state.gridSize + 16 }));
     if (this.state.gridSize > this.state.cards.length) {
-      this.setState(state => ({ page: state.page + 1 }), () => this.fetchTheApi(true));
+      this.setState(
+        state => ({ page: state.page + 1 }),
+        () => this.fetchTheApi(true)
+      );
     }
   };
 
@@ -139,6 +142,8 @@ class Container extends Component {
   render() {
     const state = this.state;
     const { cards, suggestion, gridSize, isLoading } = this.state;
+    const matches = window.innerWidth < 610;
+    console.log(matches);
     return (
       <MainContainer>
         <SearchDiv>
@@ -149,12 +154,17 @@ class Container extends Component {
             selectASupertype={this.selectASupertype}
             selectAColor={this.selectAColor}
             containerState={state}
+            isMobile={matches}
           />
         </SearchDiv>
         <Loader isLoading={isLoading} />
         {cards.length > 0 || isLoading ? (
-          <Grille id="Grille">
-            <ListApi cards={isLoading ? [] : cards} gridSize={gridSize} suggestion={suggestion} />
+          <Grille id="Grille" isMobile={matches}>
+            <ListApi
+              cards={isLoading ? [] : cards}
+              gridSize={gridSize}
+              suggestion={suggestion}
+            />
           </Grille>
         ) : (
           <NoCards />

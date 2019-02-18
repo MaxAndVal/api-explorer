@@ -1,20 +1,36 @@
 import React from "react";
-import { InputLabel, MenuItem, Select, Input, Checkbox, FormGroup } from "@material-ui/core";
+import {
+  InputLabel,
+  MenuItem,
+  Select,
+  Input,
+  Checkbox,
+  FormGroup
+} from "@material-ui/core";
 
 const SearchBar = props => {
-  const { listTypes, listSubTypes, listSupertypes, listColorTypes } = props.containerState;
+  const {
+    listTypes,
+    listSubTypes,
+    listSupertypes,
+    listColorTypes
+  } = props.containerState;
   return (
     <form>
       <div
         style={{
           display: "flex",
+          flexDirection: props.isMobile ? "column" : "row",
           justifyContent: "space-around",
           paddingBottom: "25px",
           marginTop: "25px",
           borderBottom: "1px solid black"
         }}
       >
-        <Input placeholder="Search for..." onChange={e => props.getSuggestions(e.target.value)} />
+        <Input
+          placeholder="Search for..."
+          onChange={e => props.getSuggestions(e.target.value)}
+        />
         <InputLabel>Type</InputLabel>
         <Select
           onChange={e => props.selectAType(e.target.value)}

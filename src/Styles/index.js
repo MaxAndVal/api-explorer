@@ -2,7 +2,10 @@ import styled from "styled-components";
 
 export const Grille = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  ${props =>
+    props.isMobile
+      ? "grid-template-columns:1fr 1fr;"
+      : "grid-template-columns: 1fr 1fr 1fr 1fr;"}
   padding: 15px;
   justify-items: center;
 `;
