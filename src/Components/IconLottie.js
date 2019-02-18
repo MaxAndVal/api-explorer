@@ -1,21 +1,24 @@
 import React from "react";
 import Lottie from "react-lottie";
-const animationData = require("../images/back.json");
+const back = require("../images/back.json");
 
 const IconLottie = props => {
   const defaultOptions = {
     loop: false,
     autoplay: false,
-    animationData: animationData,
+    animationData: props.icon || back,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice"
     }
   };
+  const width = props.width || 20;
+  const height = props.height || 20;
+  const margin = props.margin || 5;
   return (
     <Lottie
       options={defaultOptions}
       isStopped={!props.isHover}
-      style={{ width: 20, height: 20, margin: 5 }}
+      style={{ width: width, height: height, margin: margin }}
     />
   );
 };

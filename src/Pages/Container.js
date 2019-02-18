@@ -26,7 +26,8 @@ class Container extends Component {
       listSupertypes: [],
       selectedSupertype: [],
       listColorTypes: [],
-      selectedColor: ""
+      selectedColor: "",
+      fav: localStorage.getItem("fav")
     };
   }
   isBottom(el) {
@@ -137,7 +138,6 @@ class Container extends Component {
     }
   };
   render() {
-    console.log("conainter", this.props);
     const state = this.state;
     const { cards, suggestion, gridSize, isLoading } = this.state;
     return (

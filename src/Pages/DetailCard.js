@@ -3,6 +3,9 @@ import { Back } from "../Styles";
 import FieldsBox from "../Components/FieldsBox";
 import ImageCard from "../Components/ImageCard";
 import ButtonBack from "../Components/CustomButton";
+import IconLotties from "../Components/IconLottie";
+
+const heart = require("../images/heart.json");
 
 class DetailCard extends Component {
   constructor(props) {
@@ -46,12 +49,25 @@ class DetailCard extends Component {
   mouseOver = hover => {
     this.setState({ returnHover: hover });
   };
+  addToFavorite = () => {
+    let fav;
+    if (localStorage.length === 0) {
+      localStorage.setItem("fav", JSON.stringify([]));
+    }
+    fav = JSON.parse(localStorage.getItem("fav"));
+    fav.push(this.state.name);
+    localStorage.setItem("fav", JSON.stringify(fav));
+  };
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <ButtonBack text="retour" mouseOver={this.mouseOver} isHover={this.state.returnHover} />
+        {this.state.name && (
+          <div onClick={() => this.addToFavorite()}>
+            <IconLotties icon={heart} width="100px" height="100px" onClick={this.addToFavorite} />
+          </div>
+        )}
         <Back>
           <ImageCard image={this.state.image} />
           <FieldsBox state={this.state.fieldState} isMobile={this.props.isMobile} />
